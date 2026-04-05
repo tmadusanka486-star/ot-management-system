@@ -59,7 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <div className="w-8 h-8 bg-zinc-100 rounded-lg flex items-center justify-center">
                     <Zap size={16} className="text-black fill-black" />
                   </div>
-                  <span className="font-bold text-white">PowerTech</span>
+                  <span className="font-bold text-white">OT Management System</span>
                 </div>
                 <button 
                   onClick={() => setIsMobileMenuOpen(true)} 
