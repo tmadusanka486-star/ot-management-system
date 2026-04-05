@@ -21,8 +21,10 @@ export default function Dashboard() {
     try {
       setLoading(true)
 
-      // 1. දැනට ලොග් වෙලා ඉන්න කෙනාව ගන්නවා (අලුතින් එකතු කරපු කෑල්ල)
-      const { data: { user } } = await supabase.auth.getUser()
+      // 1. දැනට ලොග් වෙලා ඉන්න කෙනාව ගන්නවා (Error එක එන්නේ නැති වෙන්න getSession දැම්මා)
+      const { data: { session } } = await supabase.auth.getSession()
+      const user = session?.user
+
       if (user && user.email) {
         // Email එකේ @ එකට කලින් තියෙන කෑල්ල අරන් මුල් අකුර ලොකු කරනවා (උදා: admin@... -> Admin)
         const namePart = user.email.split('@')[0]
