@@ -39,8 +39,8 @@ export default function Sidebar({ onClose }: { onClose?: () => void }) {
             <Zap size={22} className="text-black fill-black" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-white leading-tight tracking-tight">T&S PowerTech</h2>
-            <p className="text-[9px] text-zinc-500 uppercase tracking-[1px] font-black mt-0.5">Overtime Management</p>
+            <h1 className="text-lg font-bold text-white leading-tight tracking-tight">Over Time</h1>
+           <h2 className="text-lg font-bold text-white leading-tight tracking-tight">Management System</h2>
           </div>
         </div>
         
