@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { supabase } from '@/lib/supabase' // මේක අලුතින් import කළා
+import { supabase } from '@/lib/supabase'
 import { 
   LayoutDashboard, 
   Clock, 
@@ -9,10 +9,12 @@ import {
   FileText, 
   Settings, 
   LogOut, 
-  Zap 
+  Zap,
+  X // අලුතින් import කළා
 } from 'lucide-react'
 
-export default function Sidebar() {
+// props විදිහට onClose ගන්නවා
+export default function Sidebar({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname()
 
   const menuItems = [
@@ -23,31 +25,29 @@ export default function Sidebar() {
     { name: 'Settings & Limits', icon: Settings, path: '/settings' },
   ]
 
-  // මෙන්න Logout Function එක
   const handleLogout = async () => {
-    // Supabase එකෙන් Sign out වෙනවා
-    const { error } = await supabase.auth.signOut()
-    
-    if (error) {
-      console.error('Error logging out:', error.message)
-    }
-    // මෙතනින් පස්සේ මොකුත් කරන්න ඕනේ නෑ!
-    // layout.tsx එකේ තියෙන onAuthStateChange එකෙන් මේක අල්ලගෙන ඔටෝම Login Screen එක පෙන්නනවා.
+    await supabase.auth.signOut()
   }
 
   return (
-    <aside className="w-72 bg-[#09090b] border-r border-zinc-800 flex flex-col p-7 sticky top-0 h-screen z-50">
+    <aside className="w-72 bg-[#09090b] border-r border-zinc-800 flex flex-col p-7 h-screen z-50 shadow-2xl md:shadow-none">
       
       {/* --- Brand Identity --- */}
-      <div className="flex items-center gap-3 mb-12 px-2">
-        <div className="w-10 h-10 bg-zinc-100 rounded-xl flex items-center justify-center shadow-lg shadow-white/5">
-          <Zap size={22} className="text-black fill-black" />
+      <div className="flex items-center justify-between mb-12 px-2">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-zinc-100 rounded-xl flex items-center justify-center shadow-lg shadow-white/5">
+            <Zap size={22} className="text-black fill-black" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-white leading-tight tracking-tight">T&S PowerTech</h2>
+            <p className="text-[9px] text-zinc-500 uppercase tracking-[1px] font-black mt-0.5">Overtime Management</p>
+          </div>
         </div>
-        <div>
-          <h2 className="text-lg font-bold text-white leading-tight tracking-tight">Over Time</h2>
-          <h2 className="text-lg font-bold text-white leading-tight tracking-tight">Managment System</h2>
-          
-        </div>
+        
+        {/* ෆෝන් එකේදී Sidebar එක වහන බටන් එක */}
+        <button onClick={onClose} className="md:hidden text-zinc-500 hover:text-white p-1">
+          <X size={24} />
+        </button>
       </div>
 
       {/* --- Navigation Links --- */}
@@ -58,6 +58,7 @@ export default function Sidebar() {
             <Link 
               key={item.name} 
               href={item.path}
+              onClick={onClose} // ලින්ක් එකක් ක්ලික් කළාමත් ෆෝන් එකේ මෙනු එක ඔටෝ වහන්න
               className={`flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-200 group ${
                 isActive 
                 ? 'bg-zinc-800 text-white border border-zinc-700 shadow-sm' 
@@ -77,7 +78,7 @@ export default function Sidebar() {
       {/* --- Bottom Actions (Logout Button) --- */}
       <div className="pt-6 border-t border-zinc-800">
         <button 
-          onClick={handleLogout} // බටන් එකට function එක සම්බන්ධ කළා
+          onClick={handleLogout}
           className="w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-zinc-500 hover:bg-red-500/10 hover:text-red-500 transition-all font-bold border border-transparent hover:border-red-500/10"
         >
           <LogOut size={20} />
